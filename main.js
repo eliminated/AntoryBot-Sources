@@ -3,19 +3,22 @@
 
 const d = require('discord.js');
 require('dotenv').config();
-const { Client, GatewayIntentBits, Partials } = require('discord.js');
-const {readdirSync} = require('fs');
+const { Client, GatewayIntentBits, InteractionType, Collection } = require('discord.js');
+const { readdirSync } = require('fs');
 
 // Create new client instance
 
-const client = new Client({
-    intents: [GatewayIntentBits.Guilds], partials: [Partials.Channel]       // This is v14 only
-});
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+client.commands = new Collection();
+client.commandArray = [];
 
-// When the client is ready, run this code (only onces)
-client.once('ready', () => {
-    console.log('\'ready\' () => {');
-});
+const handlersFile = readdirSync('./src/handlers/').filter(file => file.endsWith('.js'));
+for (const file of handlersFile) {
+    require(`./src/handlers/${file}`)(client);
+}
+
+client.commandHandler();
+client.eventHandler();
 
 // Login to Discord with your app's token
 client.login(process.env.TOKEN);
