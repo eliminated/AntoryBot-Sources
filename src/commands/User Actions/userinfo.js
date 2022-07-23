@@ -21,9 +21,9 @@ module.exports = {
             .setThumbnail(findUser.avatarURL())
             .setColor(0x18e1ee)
             .setAuthor({
-                url: 'https://discord.gg/QYpbyFcYkv',
-                iconURL: `${serverGuild_logo}`,
-                name: `${guildName}`,
+                url: `${findUser.avatarURL()}`,
+                iconURL: `${findUser.avatarURL()}`,
+                name: `${findUser.username}#${findUser.discriminator}`,
             })
             .setFooter({
                 text: `Requested: ${interaction.author}`,
@@ -48,6 +48,7 @@ module.exports = {
 
         await interaction.reply({
             embeds: [embed],
+            content: "[**This command will be deprecated in the future. Please use '/info user' instead.**]",
         });
     }
 }

@@ -1,6 +1,9 @@
 const { readdirSync } = require('fs');
 const { Routes } = require('discord-api-types/v10');
 const { REST } = require('@discordjs/rest');
+const ascii = require('ascii-table');
+const table = new ascii('Command Handler');
+table.setHeading('Command', 'Description', 'Status');
 
 module.exports = (client) => {
     client.commandHandler = async () => {
@@ -13,9 +16,10 @@ module.exports = (client) => {
                 const command = require(`../commands/${folder}/${file}`);
                 commands.set(command.data.name, command);
                 commandArray.push(command.data.toJSON());
-                console.log(`Command: ${command.data.name} loaded.`);
+                table.addRow(command.data.name, command.data.description, '✅');
             }
         }
+        console.log(table.toString());
 
         const { clientId } = require('../../configs.json');
         const { guildId } = require('../../configs.json');

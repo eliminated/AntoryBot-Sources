@@ -8,8 +8,9 @@ const { readdirSync } = require('fs');
 
 // Create new client instance
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages ,GatewayIntentBits.GuildPresences] });
 client.commands = new Collection();
+client.buttons = new Collection();
 client.commandArray = [];
 
 const handlersFile = readdirSync('./src/handlers/').filter(file => file.endsWith('.js'));
@@ -19,6 +20,7 @@ for (const file of handlersFile) {
 
 client.commandHandler();
 client.eventHandler();
+client.componentHandler();
 
 // Login to Discord with your app's token
 client.login(process.env.TOKEN);

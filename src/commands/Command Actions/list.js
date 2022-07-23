@@ -13,19 +13,26 @@ module.exports = {
                 .addChoices(
                     { name: 'Command Actions', value: 'command-actions' },
                     { name: 'User Actions', value: 'user-actions' },
+                    { name: 'Random Funs and Misc', value: 'random-funs-and-misc' },
                     { name: 'All', value: 'all' }
                 )),
     async execute(interaction, client) {
             const selected_category = interaction.options.getString('category');
             const cmdActions = readdirSync('./src/commands/Command Actions/');
             const usrActions = readdirSync('./src/commands/User Actions/');
+            const randomFunsAndMisc = readdirSync('./src/commands/Random Funs and Misc/');
+
+            // Lists
+            const usrActionsList = usrActions.map(usr => usr.replace('.js', ''));
+            const cmdActionsList = cmdActions.map(cmd => cmd.replace('.js', ''));
+            const randomFunsAndMiscList = randomFunsAndMisc.map(fun => fun.replace('.js', ''));
 
             switch (selected_category) {
                 case 'command-actions':
-                    const cmdActionsList = cmdActions.map(cmd => cmd.replace('.js', ''));
+
                     const cmdActionsEmbed = new EmbedBuilder()
                         .setTitle(`Command List: ${selected_category}`)
-                        .setDescription(`Here is a list of all commands: \n${cmdActionsList.join('\n ')}`)
+                        .setDescription(`Here is a list of all commands: \n\n${cmdActionsList.join('\n ')}`)
                         .setColor('#0099ff')
                         .setTimestamp(Date.now());
 
@@ -33,21 +40,33 @@ module.exports = {
                     break;
 
                 case 'user-actions':
-                    const usrActionsList = usrActions.map(usr => usr.replace('.js', ''));
                     const usrActionsEmbed = new EmbedBuilder()
                         .setTitle(`Command List: ${selected_category}`)
-                        .setDescription(`Here is a list of all commands: \n${usrActionsList.join('\n ')}`)
+                        .setDescription(`Here is a list of all commands: \n\n${usrActionsList.join('\n ')}`)
                         .setColor('#0099ff')
                         .setTimestamp(Date.now());
 
                         await interaction.reply({ embeds: [usrActionsEmbed] });
                     break;
+
+                case 'random-funs-and-misc':
+                    const randomFunsAndMiscList = randomFunsAndMisc.map(fun => fun.replace('.js', ''));
+                    const randomFunsAndMiscEmbed = new EmbedBuilder()
+                        .setTitle(`Command List: ${selected_category}`)
+                        .setDescription(`Here is a list of all commands: \n\n${randomFunsAndMiscList.join('\n ')}`)
+                        .setColor('#0099ff')
+                        .setTimestamp(Date.now());
+
+                        await interaction.reply({ embeds: [randomFunsAndMiscEmbed] });
+
+                    break;
             
                 case 'all':
-                    const allCommands = [...cmdActionsList, ...usrActionsList];
+                    const all = cmdActions.concat(usrActions).concat(randomFunsAndMisc);
+                    const allCommands = all.map(cmd => cmd.replace('.js', ''));
                     const allCommandsEmbed = new EmbedBuilder()
                         .setTitle(`Command List: ${selected_category}`)
-                        .setDescription(`Here is a list of all commands: \n${allCommands.join('\n')}`)
+                        .setDescription(`Here is a list of all commands: \n\n${allCommands.join('\n')}`)
                         .setColor('#0099ff')
                         .setTimestamp(Date.now());
 
@@ -58,7 +77,7 @@ module.exports = {
                     const cmdsFolderList = cmdsFolderIncludesAll.map(cmd => cmd.replace('.js', ''));
                     const cmdsFolderEmbed = new EmbedBuilder()
                         .setTitle('Command list')
-                        .setDescription(`Here is a list of all commands: \n${cmdsFolderList.join('\n')}`)
+                        .setDescription(`Here is a list of all commands: \n\n${cmdsFolderList.join('\n')}`)
                         .setColor('#0099ff')
                         .setTimestamp(Date.now());
                     await interaction.deferReply();
