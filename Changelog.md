@@ -9,3 +9,10 @@
 - Major commands modification.
 - Added 'Changelog.md' file for changelogs
 - Added bot status.
+
+## V 0.3.2
+
+- Added 'sort' command
+- Added 'quiz' command (Unstable release)
+- Added 'rules' command (Unstable release)
+- Added listener event

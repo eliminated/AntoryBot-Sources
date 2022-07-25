@@ -11,6 +11,7 @@ module.exports = {
                 .setDescription('The category to list commands from.')
                 .setRequired(true)
                 .addChoices(
+                    { name: 'Algorithms and Maths', value: 'algorithms-and-maths' },
                     { name: 'Command Actions', value: 'command-actions' },
                     { name: 'User Actions', value: 'user-actions' },
                     { name: 'Random Funs and Misc', value: 'random-funs-and-misc' },
@@ -21,13 +22,25 @@ module.exports = {
             const cmdActions = readdirSync('./src/commands/Command Actions/');
             const usrActions = readdirSync('./src/commands/User Actions/');
             const randomFunsAndMisc = readdirSync('./src/commands/Random Funs and Misc/');
+            const algorithmsandmaths = readdirSync('./src/commands/Algorithms and Maths/');
 
             // Lists
             const usrActionsList = usrActions.map(usr => usr.replace('.js', ''));
             const cmdActionsList = cmdActions.map(cmd => cmd.replace('.js', ''));
             const randomFunsAndMiscList = randomFunsAndMisc.map(fun => fun.replace('.js', ''));
+            const algorithmsandmathsList = algorithmsandmaths.map(alg => alg.replace('.js', ''));
 
             switch (selected_category) {
+                case 'algorithms-and-maths':
+                    const algEmbed = new EmbedBuilder()
+                        .setTitle(`Command List: ${selected_category}`)
+                        .setDescription(`Here is a list of all commands: \n\n${algorithmsandmathsList.join('\n')}`)
+                        .setColor('#0099ff')
+                        .setTimestamp(Date.now());
+
+                        await interaction.reply({ embeds: [algEmbed] });
+
+                    break;
                 case 'command-actions':
 
                     const cmdActionsEmbed = new EmbedBuilder()

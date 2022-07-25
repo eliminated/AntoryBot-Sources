@@ -11,6 +11,8 @@ const { readdirSync } = require('fs');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages ,GatewayIntentBits.GuildPresences] });
 client.commands = new Collection();
 client.buttons = new Collection();
+client.selectMenus = new Collection();
+client.modals = new Collection();
 client.commandArray = [];
 
 const handlersFile = readdirSync('./src/handlers/').filter(file => file.endsWith('.js'));
